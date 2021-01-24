@@ -1,0 +1,42 @@
+openapi: 3.0.2
+info:
+  description: OCR service
+  title: OCR API
+  version: 1.0
+servers:
+  - url: 'http://localhost:8080/'
+paths:
+  /ocr:
+    post:
+      summary: OCR image
+      description: Extract text from image
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                language:
+                  type: string
+                  description: Language code(s)
+                  maxLength: 50
+                  example: eng
+                file:
+                  type: string
+                  format: binary
+                  description: Image data
+              required:
+                - language
+                - file
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          description: Validation failed. Please check function parameters
+        '500':
+          description: Server error
